@@ -5,7 +5,7 @@ This project is a RESTful API built in Go using the [Gin](https://github.com/gin
 ## Project Structure
 
 ```
-rest_api_project/
+go_rest_api_events_booking/
 ├── main.go           # Application entry point
 ├── db/               # Database connection and migration logic
 ├── models/           # Data models and access logic
@@ -21,8 +21,8 @@ rest_api_project/
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url>
-   cd rest_api_project
+   git clone https://github.com/damianpugliese/go_rest_api_events_booking.git
+   cd go_rest_api_events_booking
    ```
 2. Install dependencies:
    ```bash
@@ -30,12 +30,12 @@ rest_api_project/
    ```
 3. Run the application:
    ```bash
-   go run main.go
+   go run .
    ```
 4. The API will be available at: `http://localhost:8080`
 
 ## Main Endpoints
-- `GET    /events`         - List all events
+- `GET    /events`         - Get all events
 - `GET    /events/:id`     - Get an event by ID
 - `POST   /events`         - Create a new event
 

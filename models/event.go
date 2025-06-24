@@ -76,6 +76,7 @@ func GetEventById(id int64) (*Event, error) {
 	`
 	
 	row := db.DB.QueryRow(query, id)
+	
 	var event Event
 
 	err := row.Scan(&event.ID, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
@@ -85,4 +86,51 @@ func GetEventById(id int64) (*Event, error) {
 	}
 
 	return &event, nil
+}
+
+func (e Event) Update() error {
+	query := `
+		UPDATE events 
+		SET name = ?, description = ?, location = ?, datetime = ? 
+		WHERE id = ?
+	`
+	
+	stmt, err := db.DB.Prepare(query)
+	
+	if err != nil {
+		return err
+	}
+	
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.Name, e.Description, e.Location, e.DateTime, e.ID)
+	
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func (e Event) Delete() error {
+	query := `
+		DELETE FROM events 
+		WHERE id = ?
+	`
+	
+	stmt, err := db.DB.Prepare(query)
+	
+	if err != nil {
+		return err
+	}
+	
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.ID)
+	
+	if err != nil {
+		return err
+	}
+
+	return err
 }

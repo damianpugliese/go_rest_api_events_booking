@@ -47,7 +47,7 @@ func (u *User) Save() error {
 
 func (u *User) ValidateCredentials() error {
 	query := `
-		SELECT password FROM users 
+		SELECT id, password FROM users 
 		WHERE email = ?
 	`
 	
@@ -55,7 +55,7 @@ func (u *User) ValidateCredentials() error {
 
 	var retrievedPassword string
 
-	err := row.Scan(&retrievedPassword)
+	err := row.Scan(&u.ID, &retrievedPassword)
 	
 	if err != nil {
 		return errors.New("invalid credentials")

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/damianpugliese/go_rest_api_events_booking/models"
+	"github.com/damianpugliese/go_rest_api_events_booking/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,6 +42,13 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Could not authenticate the user", "error": err.Error()})
 		return
 	}
+
+	token, err := utils.GenerateJWT(user.ID, user.Email)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not generate token"})
+		return
+	}
 	
-	c.JSON(http.StatusOK, gin.H{"message": "User authenticated successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "User authenticated successfully", "token": token})
 }

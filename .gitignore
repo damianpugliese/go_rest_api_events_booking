@@ -36,3 +36,6 @@ Thumbs.db
 bin/
 pkg/
 vendor/
+
+# Environment variables
+.env

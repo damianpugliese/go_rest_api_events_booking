@@ -6,27 +6,34 @@ This project is a RESTful API built in Go using the [Gin](https://github.com/gin
 
 ```
 go_rest_api_events_booking/
-├── main.go           # Application entry point
-├── db/               # Database connection and migration logic
-│   └── db.go
-├── models/           # Data models and database operations
-│   ├── event.go
-│   └── user.go
-├── handlers/         # HTTP request handlers
-│   ├── events.go
-│   └── users.go
-├── routes/           # Route definitions
-│   ├── events.go
-│   └── users.go
-├── middlewares/      # HTTP middleware functions
-│   └── auth.go
-├── utils/            # Utility functions
-│   ├── hash.go
-│   └── jwt.go
-├── api.db            # SQLite database (git-ignored)
-├── go.mod, go.sum    # Project dependencies
-├── README.md         # Project documentation
-└── .gitignore        # Ignored files and folders
+├── main.go                    # Application entry point
+├── cmd/                       # Application commands
+│   ├── api/                   # API server
+│   │   ├── api.go            # API server setup
+│   │   └── routes/           # Route definitions
+│   │       ├── events.go
+│   │       └── users.go
+│   └── middlewares/          # HTTP middleware functions
+│       └── auth.go
+├── internal/                  # Private application code
+│   ├── core/                 # Core business logic
+│   │   └── models/           # Data models and database operations
+│   │       ├── event.go
+│   │       └── user.go
+│   ├── handlers/             # HTTP request handlers
+│   │   ├── events.go
+│   │   └── users.go
+│   └── infrastructure/       # Infrastructure concerns
+│       └── db/               # Database connection and migration logic
+│           └── db.go
+├── pkg/                      # Public libraries that can be used by other applications
+│   └── utils/                # Utility functions
+│       ├── hash.go
+│       └── jwt.go
+├── api.db                    # SQLite database (git-ignored)
+├── go.mod, go.sum           # Project dependencies
+├── README.md                # Project documentation
+└── .gitignore               # Ignored files and folders
 ```
 
 ## ⚙️ Requirements
@@ -96,12 +103,18 @@ go_rest_api_events_booking/
 The application automatically creates the following tables:
 - **users**: User accounts with email and hashed passwords
 - **events**: Event information including title, description, date, and location
+- **registrations**: Relationship table for event registrations by users
 
 ## 📝 Notes
 - The `api.db` database is created automatically and is ignored by git
 - Passwords are securely hashed using bcrypt
 - All endpoints return JSON responses with appropriate HTTP status codes
 - The API includes comprehensive error handling and validation
+
+## 🚧 Technical Debt
+
+### Testing
+- **Test Coverage**: Missing comprehensive test suite for the entire application
 
 ---
 

@@ -3,7 +3,7 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/damianpugliese/go_rest_api_events_booking/utils"
+	"github.com/damianpugliese/go_rest_api_events_booking/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/damianpugliese/go_rest_api_events_booking/models"
+	"github.com/damianpugliese/go_rest_api_events_booking/internal/core/models"
 	"github.com/gin-gonic/gin"
 )
 

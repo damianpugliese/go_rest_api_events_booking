@@ -34,7 +34,6 @@ Thumbs.db
 
 # Build and binary directories
 bin/
-pkg/
 vendor/
 
 # Environment variables

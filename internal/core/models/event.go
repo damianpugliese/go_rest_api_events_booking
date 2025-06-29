@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/damianpugliese/go_rest_api_events_booking/db"
+	"github.com/damianpugliese/go_rest_api_events_booking/internal/infrastructure/db"
 )
 
 type Event struct {

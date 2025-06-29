@@ -3,8 +3,8 @@ package models
 import (
 	"errors"
 
-	"github.com/damianpugliese/go_rest_api_events_booking/db"
-	"github.com/damianpugliese/go_rest_api_events_booking/utils"
+	"github.com/damianpugliese/go_rest_api_events_booking/internal/infrastructure/db"
+	"github.com/damianpugliese/go_rest_api_events_booking/pkg/utils"
 )
 
 type User struct {

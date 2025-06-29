@@ -6,9 +6,15 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 )
 
 func getSecretKey() ([]byte, error) {
+	err := godotenv.Load()
+	if err != nil {
+		return nil, errors.New("could not load .env file: " + err.Error())
+	}
+
 	secretKey := os.Getenv("JWT_SECRET_KEY")
 	if secretKey == "" {
 		return nil, errors.New("JWT_SECRET_KEY environment variable is not set")

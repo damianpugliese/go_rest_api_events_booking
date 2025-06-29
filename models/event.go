@@ -12,7 +12,7 @@ type Event struct {
 	Description string 		`binding:"required" json:"description"`
 	Location    string 		`binding:"required" json:"location"`
 	DateTime    time.Time `binding:"required" json:"datetime"`
-	UserID      int64      	`json:"user_id"`
+	UserID      int64     `json:"user_id"`
 }
 
 func (e *Event) Save() error {
@@ -132,5 +132,50 @@ func (e Event) Delete() error {
 		return err
 	}
 
+	return err
+}
+
+func (e *Event) Register(userId int64) error {
+	query := `
+		INSERT INTO registrations (event_id, user_id)
+		VALUES (?, ?)
+	`
+	
+	stmt, err := db.DB.Prepare(query)
+	
+	if err != nil {
+		return err
+	}
+	
+	defer stmt.Close()
+	
+	result, err := stmt.Exec(e.ID, userId)
+	
+	if err != nil {
+		return err
+	}
+	
+	id, err := result.LastInsertId()
+	e.ID = id
+
+	return err
+}
+
+func (e *Event) Cancel(userId int64) error {
+	query := `
+		DELETE FROM registrations
+		WHERE event_id = ? AND user_id = ?
+	`
+	
+	stmt, err := db.DB.Prepare(query)
+	
+	if err != nil {
+		return err
+	}
+	
+	defer stmt.Close()
+	
+	_, err = stmt.Exec(e.ID, userId)
+	
 	return err
 }

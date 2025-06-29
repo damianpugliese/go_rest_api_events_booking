@@ -1,8 +1,8 @@
-# Go REST API Events Booking
+# 🎫 Go REST API Events Booking
 
 This project is a RESTful API built in Go using the [Gin](https://github.com/gin-gonic/gin) framework and a SQLite database. It provides a complete event booking system with user authentication and event management capabilities.
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 go_rest_api_events_booking/
@@ -25,26 +25,27 @@ go_rest_api_events_booking/
 │   └── jwt.go
 ├── api.db            # SQLite database (git-ignored)
 ├── go.mod, go.sum    # Project dependencies
+├── README.md         # Project documentation
 └── .gitignore        # Ignored files and folders
 ```
 
-## Requirements
+## ⚙️ Requirements
 - Go 1.23+
 
-## Installation & Usage
+## 🔧 Installation & Usage
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/damianpugliese/go_rest_api_events_booking.git
    cd go_rest_api_events_booking
    ```
 
-2. Install dependencies:
+2. **Install dependencies:**
    ```bash
    go mod tidy
    ```
 
-3. Set up environment variables:
+3. **Set up environment variables:**
    
    Create a `.env` file in the project root with the following content:
    ```env
@@ -52,50 +53,51 @@ go_rest_api_events_booking/
    ```
    
    **Important**: Replace `your-super-secret-jwt-key-here` with a strong, unique secret key. This key is used to sign and verify JWT tokens for user authentication.
-   
-   Alternatively, you can set the environment variable directly:
-   ```bash
-   export JWT_SECRET_KEY="your-super-secret-jwt-key-here"
-   ```
 
-4. Run the application:
+4. **Run the application:**
    ```bash
    go run .
    ```
 
-5. The API will be available at: `http://localhost:8080`
+5. **The API will be available at:** `http://localhost:8080`
 
-## API Endpoints
+## 💻 API Endpoints
 
-### User Management
+### 👤 User Management
 - `POST   /signup`         - Register a new user
 - `POST   /login`          - User authentication
 
-### Event Management
+### 🎪 Event Management
 - `GET    /events`         - Get all events
 - `GET    /events/:id`     - Get an event by ID
-- `POST   /events`         - Create a new event
-- `PUT    /events/:id`     - Update an existing event
-- `DELETE /events/:id`     - Delete an event
+- `POST   /events`         - Create a new event (Protected - requires JWT)
+- `PUT    /events/:id`     - Update an existing event (Protected - requires JWT)
+- `DELETE /events/:id`     - Delete an event (Protected - requires JWT)
 
-## Features
+### 📅 Event Registration
+- `POST   /events/:id/register`     - Register for an event (Protected - requires JWT)
+- `DELETE /events/:id/register`     - Cancel event registration (Protected - requires JWT)
 
-- **User Authentication**: Secure user registration and login with password hashing
-- **JWT Authentication**: JSON Web Token-based authentication for secure API access
-- **Route Protection**: Protected routes using JWT middleware for event management operations
-- **Event Management**: Full CRUD operations for events
-- **SQLite Database**: Lightweight, file-based database using [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3)
-- **RESTful API**: Clean, REST-compliant endpoints
-- **Gin Framework**: High-performance HTTP web framework
-- **Input Validation**: Request validation and error handling
+## ✨ Features
 
-## Database Schema
+- 🔐 **User Authentication**: Secure user registration and login with password hashing
+- 🛡️ **JWT Authentication**: JSON Web Token-based authentication for secure API access
+- 🔒 **Route Protection**: Protected routes using JWT middleware for event management operations
+- 🎪 **Event Management**: Full CRUD operations for events
+- 📅 **Event Registration System**: Users can register and cancel registrations for events
+- ⚙️ **Environment Configuration**: Automatic loading of environment variables from `.env` file
+- 🗄️ **SQLite Database**: Lightweight, file-based database using [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3)
+- 🌐 **RESTful API**: Clean, REST-compliant endpoints
+- ⚡ **Gin Framework**: High-performance HTTP web framework
+- ✅ **Input Validation**: Request validation and error handling
+
+## 🗃️ Database Schema
 
 The application automatically creates the following tables:
 - **users**: User accounts with email and hashed passwords
 - **events**: Event information including title, description, date, and location
 
-## Notes
+## 📝 Notes
 - The `api.db` database is created automatically and is ignored by git
 - Passwords are securely hashed using bcrypt
 - All endpoints return JSON responses with appropriate HTTP status codes
@@ -103,4 +105,4 @@ The application automatically creates the following tables:
 
 ---
 
-Contributions and suggestions are welcome! 
+🤝 Contributions and suggestions are welcome!

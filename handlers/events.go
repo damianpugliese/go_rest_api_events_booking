@@ -12,29 +12,46 @@ func GetEvents(c *gin.Context) {
 	events, err := models.GetAllEvents()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the events", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the events",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, events)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   events,
+	})
 }
 
 func GetEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid event ID"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Invalid event ID",
+		})
 		return
 	}
 
 	event, err := models.GetEventById(id)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, event)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   event,
+	})
 }
 
 func CreateEvent(c *gin.Context) {
@@ -42,7 +59,11 @@ func CreateEvent(c *gin.Context) {
 	err := c.ShouldBindJSON(&event)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data", "error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Could not parse request data",
+			"error":   err.Error(),
+		})
 		return
 	}
 
@@ -53,18 +74,29 @@ func CreateEvent(c *gin.Context) {
 	err = event.Save()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not create the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Event created successfully", "event": event})
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  http.StatusCreated,
+		"message": "Event created successfully",
+		"data":    event,
+	})
 }
 
 func UpdateEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid event ID"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Invalid event ID",
+		})
 		return
 	}
 
@@ -72,12 +104,19 @@ func UpdateEvent(c *gin.Context) {
 	event, err := models.GetEventById(id)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
 	if event.UserID != userId {
-		c.JSON(http.StatusForbidden, gin.H{"message": "You are not authorized to update this event"})
+		c.JSON(http.StatusForbidden, gin.H{
+			"status":  http.StatusForbidden,
+			"message": "You are not authorized to update this event",
+		})
 		return
 	}
 
@@ -85,7 +124,11 @@ func UpdateEvent(c *gin.Context) {
 	err = c.ShouldBindJSON(&updatedEvent)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data", "error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Could not parse request data",
+			"error":   err.Error(),
+		})
 		return
 	}
 
@@ -94,18 +137,29 @@ func UpdateEvent(c *gin.Context) {
 	err = updatedEvent.Update()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not update the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not update the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Event updated successfully", "event": updatedEvent})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "Event updated successfully",
+		"data":    updatedEvent,
+	})
 }
 
 func DeleteEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid event ID"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Invalid event ID",
+		})
 		return
 	}
 
@@ -113,37 +167,58 @@ func DeleteEvent(c *gin.Context) {
 	event, err := models.GetEventById(id)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
 	if event.UserID != userId {
-		c.JSON(http.StatusForbidden, gin.H{"message": "You are not authorized to delete this event"})
+		c.JSON(http.StatusForbidden, gin.H{
+			"status":  http.StatusForbidden,
+			"message": "You are not authorized to delete this event",
+		})
 		return
 	}
 
 	err = event.Delete()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not delete the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not delete the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Event deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "Event deleted successfully",
+	})
 }
 
 func RegisterForEvent(c *gin.Context) {
 	eventId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid event ID"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Invalid event ID",
+		})
 		return
 	}
 
 	event, err := models.GetEventById(eventId)
 	
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 
@@ -152,25 +227,39 @@ func RegisterForEvent(c *gin.Context) {
 	err = event.Register(userId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create the registration", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not create the registration",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Registration created successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  http.StatusCreated,
+		"message": "Registration created successfully",
+	})
 }
 
 func CancelRegistration(c *gin.Context) {
 	eventId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid event ID"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "Invalid event ID",
+		})
 		return
 	}
 
 	event, err := models.GetEventById(eventId)
 	
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get the event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not get the event",
+			"error":   err.Error(),
+		})
 		return
 	}
 	
@@ -179,10 +268,17 @@ func CancelRegistration(c *gin.Context) {
 	err = event.Cancel(userId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not cancel the registration", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": "Could not cancel the registration",
+			"error":   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Registration deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "Registration deleted successfully",
+	})
 }
 
